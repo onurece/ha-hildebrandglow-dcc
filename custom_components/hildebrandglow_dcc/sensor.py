@@ -3,10 +3,22 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from datetime import datetime, timedelta
-import logging
 import itertools
+import logging
+
+from homeassistant_historical_sensor import (
+    HistoricalSensor,
+    HistoricalState,
+    PollUpdateMixin,
+)
 import requests
 
+from homeassistant.components.recorder import statistics
+from homeassistant.components.recorder.models import (
+    StatisticData,
+    StatisticMeanType,
+    StatisticMetaData,
+)
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfEnergy
@@ -24,12 +36,6 @@ from homeassistant.components.recorder.models import (
     StatisticMetaData,
 )
 from homeassistant.util import dt as dtutil
-
-from homeassistant_historical_sensor import (
-    HistoricalSensor,
-    HistoricalState,
-    PollUpdateMixin,
-)
 
 from .const import DOMAIN
 
