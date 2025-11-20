@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
-from datetime import datetime, time, timedelta
+from datetime import datetime, timedelta
 import logging
 import itertools
 import statistics
@@ -11,7 +11,6 @@ import requests
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
-    SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfEnergy
@@ -22,7 +21,6 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
-from homeassistant.components import recorder
 from homeassistant.components.recorder import statistics
 from homeassistant.components.recorder.models import (
     StatisticData,
