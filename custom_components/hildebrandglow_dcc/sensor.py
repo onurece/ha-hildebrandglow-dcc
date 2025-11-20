@@ -153,7 +153,7 @@ async def daily_data(hass: HomeAssistant, resource, t_from: datetime = None, pre
     # Always pull down the last 6 hours of readings
     now = datetime.now()
     # Round to the day to set time to 00:00:00
-    t_from = await hass.async_add_executor_job(resource.round, datetime.now() - timedelta(hours=12), "PT1M")
+    t_from = await hass.async_add_executor_job(resource.round, datetime.now() - timedelta(hours=24), "PT1M")
     # Round to the minute subtract 1 hour to account for non complete hours
     t_to = await hass.async_add_executor_job(resource.round, now, "PT1M")#await hass.async_add_executor_job(resource.round, (now - timedelta(hours=1)).replace(minute= 59, second=59), "PT1M")
     # Tell Hildebrand to pull latest DCC data
