@@ -26,8 +26,8 @@ from homeassistant.components import recorder
 from homeassistant.components.recorder import statistics
 from homeassistant.components.recorder.models import (
     StatisticData,
-    StatisticMetaData,
     StatisticMeanType,
+    StatisticMetaData,
 )
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
