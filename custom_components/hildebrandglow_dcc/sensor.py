@@ -5,13 +5,9 @@ from collections.abc import Callable
 from datetime import datetime, timedelta
 import logging
 import itertools
-import statistics
 import requests
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-)
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfEnergy
 from homeassistant.core import HomeAssistant, callback
@@ -27,10 +23,6 @@ from homeassistant.components.recorder.models import (
     StatisticMeanType,
     StatisticMetaData,
 )
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfEnergy
-from homeassistant.core import HomeAssistant
 from homeassistant.util import dt as dtutil
 
 from homeassistant_historical_sensor import (
