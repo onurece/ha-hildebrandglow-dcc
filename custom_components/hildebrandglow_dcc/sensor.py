@@ -245,8 +245,7 @@ class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
     def get_statistic_metadata(self) -> StatisticMetaData:
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
-        meta["mean_type"] = StatisticMeanType.ARITHMETIC
-        meta["unit_class"] = None
+        meta["has_mean"] = True
 
         return meta
 
@@ -356,8 +355,6 @@ class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
     def get_statistic_metadata(self) -> StatisticMetaData:
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
-        meta["mean_type"] = StatisticMeanType.NONE
-        meta["unit_class"] = None
 
         return meta
 
