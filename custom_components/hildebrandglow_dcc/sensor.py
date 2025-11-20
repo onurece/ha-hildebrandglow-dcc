@@ -153,9 +153,9 @@ async def daily_data(hass: HomeAssistant, resource, t_from: datetime = None, pre
     # Always pull down the last 6 hours of readings
     now = datetime.now()
     # Round to the day to set time to 00:00:00
-    t_from = await hass.async_add_executor_job(resource.round, datetime.now() - timedelta(hours=12), "PT1M")
+    t_from = await hass.async_add_executor_job(resource.round, datetime.now() - timedelta(hours=24), "PT1M")
     # Round to the minute subtract 1 hour to account for non complete hours
-    t_to = await hass.async_add_executor_job(resource.round, now, "PT1M")#await hass.async_add_executor_job(resource.round, (now - timedelta(hours=1)).replace(minute= 59, second=59), "PT1M")
+    t_to = await hass.async_add_executor_job(resource.round, now, "PT1M")
     # Tell Hildebrand to pull latest DCC data
     try:
         await hass.async_add_executor_job(resource.catchup)
@@ -235,7 +235,7 @@ class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
     def get_statistic_metadata(self) -> StatisticMetaData:
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
-        meta["mean_type"] = StatisticMeanType.ARITHMETIC
+        meta["mean_type"] = StatisticMeanType.NONE
         meta["unit_class"] = None
 
         return meta
@@ -263,7 +263,6 @@ class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
             if len(collection) < 2:
                 continue
             
-            mean = statistics.mean([x.state for x in collection])
             partial_sum = sum([x.state for x in collection])
             accumulated = accumulated + partial_sum
 
@@ -271,7 +270,6 @@ class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 StatisticData(
                     start=dt,
                     state=partial_sum,
-                    mean=mean,
                     sum=accumulated,
                 )
             )
@@ -371,7 +369,6 @@ class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
             # For each hour we need two meansurements (HH:00, HH:30) before calculating statistics
             if len(collection) < 2:
                 continue
-            mean = statistics.mean([x.state for x in collection])
             partial_sum = sum([x.state for x in collection])
             accumulated = accumulated + partial_sum
 
