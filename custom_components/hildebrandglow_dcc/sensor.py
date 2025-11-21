@@ -337,6 +337,7 @@ class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
                         dt=dtutil.as_local(reading[0] + timedelta(minutes=1))
                     ))
                 self._attr_historical_states = hist_states
+        _LOGGER.debug(self._attr_historical_states)
 
     @property
     def statistic_id(self) -> str:
