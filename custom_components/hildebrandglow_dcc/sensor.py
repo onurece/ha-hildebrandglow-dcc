@@ -227,11 +227,12 @@ async def tariff_data(hass: HomeAssistant, resource) -> float:
             _LOGGER.exception("Unexpected exception: %s. Please open an issue", ex)
     return None
 
+
 class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
     @property
     def statistic_id(self) -> str:
         return self.entity_id
-    
+
     def get_statistic_metadata(self) -> StatisticMetaData:
         meta = super().get_statistic_metadata()
         meta["has_sum"] = True
@@ -262,7 +263,6 @@ class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
 
             if len(collection) < 2:
                 continue
-            
             partial_sum = sum([x.state for x in collection])
             accumulated = accumulated + partial_sum
 
@@ -275,6 +275,7 @@ class HistoricalSensorMixin(PollUpdateMixin, HistoricalSensor, SensorEntity):
             )
         return ret
 
+
 class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
     """Sensor object for daily usage."""
 
@@ -286,7 +287,7 @@ class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
     def __init__(self, hass: HomeAssistant, resource, virtual_entity) -> None:
         """Initialize the sensor."""
         self._attr_unique_id = resource.id
-        self.UPDATE_INTERVAL = timedelta(minutes = 15)
+        self.UPDATE_INTERVAL = timedelta(minutes=15)
         self.hass = hass
         self.initialised = False
         self.resource = resource
@@ -319,9 +320,9 @@ class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
             hist_states = []
             for reading in readings:
                 hist_states.append(HistoricalState(  # noqa: PERF401
-                    state = reading[1].value,
+                    state=reading[1].value,
                     # add 1 minute to date so it can correctly call into the hour group
-                    dt = dtutil.as_local(reading[0] + timedelta(minutes=1))
+                    dt=dtutil.as_local(reading[0] + timedelta(minutes=1))
                 ))
             self._attr_historical_states = hist_states
             self.initialised = True
@@ -332,8 +333,8 @@ class Usage(PollUpdateMixin, HistoricalSensor, SensorEntity):
                 hist_states = []
                 for reading in readings:
                     hist_states.append(HistoricalState(  # noqa: PERF401
-                        state = reading[1].value,
-                        dt = dtutil.as_local(reading[0] + timedelta(minutes=1))
+                        state=reading[1].value,
+                        dt=dtutil.as_local(reading[0] + timedelta(minutes=1))
                     ))
                 self._attr_historical_states = hist_states
 
@@ -393,7 +394,7 @@ class Cost(HistoricalSensorMixin):
     def __init__(self, hass: HomeAssistant, resource, virtual_entity) -> None:
         """Initialize the sensor."""
         self._attr_unique_id = resource.id
-        self.UPDATE_INTERVAL = timedelta(minutes = 15)
+        self.UPDATE_INTERVAL = timedelta(minutes=15)
         self.hass = hass
         self.initialised = False
         self.meter = None
@@ -422,8 +423,8 @@ class Cost(HistoricalSensorMixin):
             hist_states = []
             for reading in readings:
                 hist_states.append(HistoricalState(  # noqa: PERF401
-                    state = reading[1].value / 100,
-                    dt = dtutil.as_local(reading[0] + timedelta(minutes=1)))
+                    state=reading[1].value / 100,
+                    dt=dtutil.as_local(reading[0] + timedelta(minutes=1)))
                 )
             self._attr_historical_states = hist_states
             self.initialised = True
@@ -433,11 +434,12 @@ class Cost(HistoricalSensorMixin):
             hist_states = []
             for reading in readings:
                 hist_states.append(HistoricalState(  # noqa: PERF401
-                    state = reading[1].value / 100,
-                    dt = dtutil.as_local(reading[0] + timedelta(minutes=1))
+                    state=reading[1].value / 100,
+                    dt=dtutil.as_local(reading[0] + timedelta(minutes=1))
                 ))
             self._attr_historical_states = hist_states
         _LOGGER.debug(self._attr_historical_states)
+
 
 class TariffCoordinator(DataUpdateCoordinator):
     """Data update coordinator for the tariff sensors."""
